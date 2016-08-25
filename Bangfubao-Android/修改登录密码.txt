@@ -1,0 +1,9 @@
+*** Settings ***
+Test Setup        启动应用
+Test Teardown     关闭应用
+Resource          业务模块.txt
+
+*** Test Cases ***
+Modify_LoginPassword
+    修改登录密码    13910835391    xpath=//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]    1234qwer    id =img_head    id=content    1234qwer
+    ...    1234qwert    name=修改成功

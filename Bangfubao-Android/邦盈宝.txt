@@ -1,0 +1,16 @@
+*** Settings ***
+Test Setup        启动应用
+Test Teardown     关闭应用
+Resource          业务模块.txt
+
+*** Test Cases ***
+BangYingBao_Manager
+    邦盈宝_管家    13910835391    xpath=//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]    1234qwer    id =img_head    id=tv_trans_in
+
+BangYingBao_Income
+    邦盈宝转入    13910835391    xpath=//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]    1234qwer    id =img_head    10.11    id=RelativeLayout1
+    ...    qwer1234    name=10.11元
+
+BangYingBao_Output
+    邦盈宝转出    13910835391    xpath=//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]    1234qwer    id =img_head    10.11    id=RelativeLayout1
+    ...    qwer1234    name=转出成功

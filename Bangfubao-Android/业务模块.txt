@@ -1,0 +1,328 @@
+*** Settings ***
+Resource          公共层.txt
+
+*** Keywords ***
+登录测试
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}
+    输入账号    ${username}
+    点击密码框
+    输入密码    ${el}    ${pwd}
+    点击登录
+    sleep    8
+    ${a}    is_element_present    id = nine_con
+    Run Keyword If    "${a}"=="True"    忽略手势密码
+    ${b}    is_element_present    id = rl_main
+    Run Keyword If    "${a}"=="True"    关闭首页广告
+    元素检查    ${elements}
+
+充值测试
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${rmb}    ${el2}
+    ...    ${pd}    ${el3}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入账号充值
+    银行卡选择
+    输入充值金额    ${rmb}
+    点击支付密码
+    输入密码    ${el2}    ${pd}
+    立即充值
+    获取验证码
+    sleep    10
+    ${a}    Oracle Connect    ${username}
+    Input Text    id=edt_smscode    ${a}
+    验证码确认
+    元素检查    ${el3}
+    账户充值-确定
+
+提现测试
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${rmb}    ${els}
+    ...    ${pd}    ${elements2}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入账户提现
+    普通提现
+    银行卡选择
+    输入提现金额    ${rmb}
+    提现
+    点击支付密码框
+    输入密码    ${els}    ${pd}
+    提现-确定
+    元素检查    ${elements2}
+    提现-完成
+
+信用卡还款（本人）
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${card}    ${name}
+    ...    ${value}    ${el2}    ${pd}    ${el3}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入生活支付
+    进入信用卡还款
+    选择信用卡-本人
+    信用卡还款金额-本人    ${value}
+    信用卡-确认还款
+    信用卡-点击支付密码
+    输入密码    ${el2}    ${pd}
+    信用卡还款-确认支付
+    元素检查    ${el3}
+    信用卡还款-完成
+
+信用卡还款（他人)
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${card}    ${name}
+    ...    ${value}    ${el2}    ${pd}    ${el3}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入生活支付
+    进入信用卡还款
+    选择信用卡-他人
+    信用卡还款金额-他人    ${value}
+    获取验证码
+    sleep    10
+    ${a}    Oracle Connect    ${username}
+    Input Text    id=edt_code    ${a}
+    信用卡-确认还款
+    sleep    30
+    信用卡还款-选择还款方式
+    点击支付密码框
+    输入密码    ${el2}    ${pd}
+    信用卡还款-确认支付
+    元素检查    ${el3}
+    信用卡还款-完成
+
+转至银行卡
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${value2}    ${el2}
+    ...    ${pd}    ${el3}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入账户转账
+    转到银行卡
+    选择收款人卡号
+    转账-输入金额    ${value2}
+    银行卡-转账
+    点击支付密码框
+    输入密码    ${el2}    ${pd}
+    转账-确定
+    元素检查    ${el3}
+    转账-完成
+
+转账到账户
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${value2}    ${el2}
+    ...    ${pd}    ${el3}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入账户转账
+    选择账户名
+    sleep    5
+    转账-输入金额    ${value2}
+    账号-转账
+    点击支付密码框
+    输入密码    ${el2}    ${pd}
+    转账-确定
+    元素检查    ${el3}
+    转账-完成
+
+邦盈宝转入
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${value}    ${el2}
+    ...    ${pd}    ${el3}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入邦盈宝
+    邦盈宝-转入
+    邦盈宝-输入金额    ${value}
+    邦盈宝-立即转入
+    点击支付密码框
+    输入密码    ${el2}    ${pd}
+    获取验证码
+    sleep    10
+    ${a}    Oracle Connect    ${username}
+    Input Text    id=edt_code    ${a}
+    验证码确认
+    元素检查    ${el3}
+    邦盈宝-我知道了
+
+邦盈宝转出
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${value}    ${el2}
+    ...    ${pd}    ${el3}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入邦盈宝
+    邦盈宝-转出
+    邦盈宝-转出金额    ${value}
+    邦盈宝-转出按钮
+    点击支付密码框
+    输入密码    ${el2}    ${pd}
+    验证码确认
+    元素检查    ${el3}
+    邦盈宝转出-完成
+
+邦盈宝_管家
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入邦盈宝
+    元素检查    ${el2}
+
+账单_充值查询
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入我的账单
+    元素检查    ${el2}
+
+账单_提现查询
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入我的账单
+    点击提现记录
+    元素检查    ${el2}
+
+账单_转账查询_账户付款查询
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入我的账单
+    点击转账到卡
+    进入账户付款列表
+    元素检查    ${el2}
+
+账单_转账查询_账户收款查询
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入我的账单
+    点击转账到卡
+    进入账户收款列表
+    元素检查    ${el2}
+
+账单_转账查询_转账到银行卡查询
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入我的账单
+    点击转账到卡
+    进入转账到银行卡列表
+    元素检查    ${el2}
+
+账单_消费查询
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入我的账单
+    进入其他账单
+    其他账单-消费记录
+    元素检查    ${el2}
+
+账单_其他查询
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入我的账单
+    进入其他账单
+    其他账单-其他账单
+    元素检查    ${el2}
+
+账单_明细
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    进入我的账单
+    ${a}    is_element_present    ${el2}
+    Run Keyword If    "${a}"=="True"    查看账单详情
+    ...    ELSE    log    账单列表为空！
+
+积分商城_首页
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入积分商城
+
+积分商城_管家
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    个人中心-我的积分
+
+机票预订
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入生活支付
+    生活支付-机票预订
+
+修改登录密码
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}    ${old_pd}
+    ...    ${new_pd}    ${el3}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    sleep    5
+    Swipe    500    1773    500    744    1000
+    sleep    10
+    进入设置
+    进入密码管理
+    点击修改登录密码
+    修改密码-输入手机号    ${username}
+    修改密码-获取验证码
+    ${a}    Oracle Connect    ${username}
+    Input Text    id=edt_code    ${a}
+    修改密码-提交
+    点击旧密码框
+    输入密码    ${el2}    ${old_pd}
+    点击新密码框一
+    输入密码    ${el2}    ${new_pd}
+    点击新密码框二
+    输入密码    ${el2}    ${new_pd}
+    修改密码-重置密码
+    元素检查    ${el3}
+    修改密码-确定
+    点击修改登录密码
+    修改密码-输入手机号    ${username}
+    修改密码-获取验证码
+    ${a}    Oracle Connect    ${username}
+    Input Text    id=edt_code    ${a}
+    修改密码-提交
+    点击旧密码框
+    输入密码    ${el2}    ${new_pd}
+    点击新密码框一
+    输入密码    ${el2}    ${old_pd}
+    点击新密码框二
+    输入密码    ${el2}    ${old_pd}
+    修改密码-重置密码
+    元素检查    ${el3}
+    修改密码-确定
+
+修改支付密码
+    [Arguments]    ${username}    ${el}    ${pwd}    ${elements}    ${el2}    ${old_pd}
+    ...    ${new_pd}    ${el3}
+    登录测试    ${username}    ${el}    ${pwd}    ${elements}
+    进入个人中心
+    sleep    5
+    Swipe    500    1773    500    744    1000
+    sleep    10
+    进入设置
+    进入密码管理
+    点击修改支付密码
+    修改密码-输入手机号    ${username}
+    修改密码-获取验证码
+    ${a}    Oracle Connect    ${username}
+    Input Text    id=edt_code    ${a}
+    修改密码-提交
+    点击旧密码框
+    输入密码    ${el2}    ${old_pd}
+    点击新密码框一
+    输入密码    ${el2}    ${new_pd}
+    点击新密码框二
+    输入密码    ${el2}    ${new_pd}
+    修改密码-重置密码
+    元素检查    ${el3}
+    修改密码-确定
+    点击修改支付密码
+    修改密码-输入手机号    ${username}
+    修改密码-获取验证码
+    ${a}    Oracle Connect    ${username}
+    Input Text    id=edt_code    ${a}
+    修改密码-提交
+    点击旧密码框
+    输入密码    ${el2}    ${new_pd}
+    点击新密码框一
+    输入密码    ${el2}    ${old_pd}
+    点击新密码框二
+    输入密码    ${el2}    ${old_pd}
+    修改密码-重置密码
+    元素检查    ${el3}
+    修改密码-确定

@@ -1,0 +1,371 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           MyLibrary
+Library           DatabaseLibrary
+Library           CustomLibrary
+
+*** Variables ***
+${waiting_time}    3
+${request_waiting_time}    8
+
+*** Keywords ***
+启动应用
+    Open Application    http://127.0.0.1:4723/wd/hub    platformName=Android    deviceName=2a22cee    appPackage=com.anbang.pay    appActivity=com.anbang.pay.StartPageActivity    unicodeKeyboard=true
+    ...    resetKeyboard =true    run_on_failure=Capture Page Screenshot
+    sleep    ${request_waiting_time}
+    ${allow}    is_element_present    id = content
+    ${location}    Get Element Location    id = content
+    Run Keyword If    "${allow}"=="True"    log    设置地里位置
+    Swipe    ${location['x']+543}    ${location['y']+500}    ${location['x']+543}    ${location['y']+500}
+    ${guide}    is_element_present    id = guide_1
+    Run Keyword If    "${guide}"=="True"    引导滑动
+
+输入账号
+    [Arguments]    ${username}
+    sleep    ${waiting_time}
+    Clear Text    id=login_tel
+    Input Text    id=login_tel    ${username}
+
+输入密码
+    [Arguments]    ${el}    ${pwd}
+    ${windows_value}    Get Element Size    ${el}
+    ${pwd_list}    get_location    ${windows_value['width']}    ${windows_value['height']}    ${pwd}
+    : FOR    ${num}    IN    @{pwd_list}
+    \    sleep    1
+    \    Swipe    ${num['x']}    ${num['y']}    ${num['x']}    ${num['y']}    2000
+
+点击密码框
+    Click Element    id=login_password
+
+点击登录
+    Click Element    id=login_button
+
+忽略手势密码
+    sleep    ${waiting_time}
+    Click Element    id=reset_btn
+
+关闭首页广告
+    Click Element    id=rl_main
+
+元素检查
+    [Arguments]    ${elements}
+    Page Should Contain Element    ${elements}
+    sleep    ${waiting_time}
+
+关闭应用
+    Close Application
+
+进入账号充值
+    Click Element    id=tv_recharge
+
+银行卡选择
+    Click Element    id=tv_crdInfo
+    sleep    ${waiting_time}
+    Click Element    id=item_left
+
+输入充值金额
+    [Arguments]    ${rmb}
+    Input Text    id = edt_amt    ${rmb}
+
+点击支付密码
+    sleep    ${waiting_time}
+    Click Element    id = edt_pass
+
+立即充值
+    Click Element    id=btn_next
+    sleep    ${waiting_time}
+
+获取验证码
+    Click Element    id=btn_code
+
+验证码确认
+    Click Element    id=btn_ok
+
+进入账户提现
+    Click Element    id=tv_withdraw
+
+普通提现
+    sleep    ${waiting_time}
+    Click Element    id=btn_common
+
+输入提现金额
+    [Arguments]    ${rmb}
+    Input Text    id=edt_amt    ${rmb}
+
+提现
+    Click Element    id=btn_next
+
+点击支付密码框
+    Click Element    id=pay_password
+
+提现-确定
+    Click Element    name=确定
+
+账户充值-确定
+    Click Element    id=btn_finish
+
+进入信用卡还款
+    sleep    ${waiting_time}
+    Click Element    name=信用卡还款
+
+发卡行选择
+    Click Element    id = tv_bankNM
+    Click Element    name=中国建设银行
+
+输入信用卡信息
+    [Arguments]    ${card}    ${name}    ${value}
+    Input Text    id=edt_bankNo    ${card}
+    sleep    ${waiting_time}
+    Input Text    id=edt_name    ${name}
+    sleep    ${waiting_time}
+    Input Text    id=edt_payment    ${value}
+
+信用卡-确认还款
+    Click Element    id=btn_submit
+    sleep    ${waiting_time}
+
+信用卡-点击支付密码
+    sleep    ${waiting_time}
+    Click Element    id=pay_password
+
+进入账户转账
+    Click Element    id=tv_transfer
+
+转到银行卡
+    Click Element    id=img_transfer_to_card
+
+转到邦付宝账户
+    Click Element    id = btn_transfer_to_account
+
+输入收款账户信息
+    [Arguments]    ${card}    ${value}
+    Input Text    id=edt_bankno    ${card}
+    Click Element    id=text_bank_name
+    Click Element    name=中国建设银行
+    Input Text    id = input_transfer_money    ${value}
+
+引导滑动
+    ${windows_value}    Get Element Size    id=guide_1
+    Swipe    ${windows_value['width']*0.9}    ${windows_value['height']*0.5}    ${windows_value['width']*0.1}    ${windows_value['height']*0.5}    1000
+    Swipe    ${windows_value['width']*0.9}    ${windows_value['height']*0.5}    ${windows_value['width']*0.1}    ${windows_value['height']*0.5}    1000
+    Swipe    ${windows_value['width']*0.9}    ${windows_value['height']*0.5}    ${windows_value['width']*0.1}    ${windows_value['height']*0.5}    1000
+    Click Element    id=startBtn
+
+进入个人中心
+    Wait Until Page Contains Element    id=img_head    20    界面打不开
+    Click Element    id=img_head
+    sleep    ${waiting_time}
+
+提现-完成
+    Click Element    name=完成
+
+进入生活支付
+    Click Element    name=生活支付
+    ${rl_main}    is_element_present    id = rl_main
+    Run Keyword If    "${rl_main}"=="True"    Click Element    id = rl_main
+
+信用卡还款-确认支付
+    Click Element    name=确认支付
+    sleep    ${waiting_time}
+
+信用卡还款-完成
+    sleep    ${waiting_time}
+    Click Element    name=完成
+    sleep    ${waiting_time}
+
+信用卡还款-选择还款方式
+    Click Element    id=tv_type
+    sleep    ${waiting_time}
+    Click Element    name=招商银行储蓄卡
+    sleep    ${waiting_time}
+
+选择收款人卡号
+    Click Element    id=img_contact2
+    sleep    ${waiting_time}
+    Click Element    name=中国工商银行(4799)
+    sleep    ${waiting_time}
+    Click Element    id=edt_amt2
+
+转账-输入金额
+    [Arguments]    ${value2}
+    Input Text    name=请输入金额    ${value2}
+    sleep    ${waiting_time}
+
+账号-转账
+    Click Element    id=btn_next
+    sleep    ${waiting_time}
+
+转账-确定
+    Click Element    id=btn_ok
+
+转账-完成
+    Click Element    id=btn_finish
+    sleep    ${waiting_time}
+
+选择账户名
+    Click Element    id=img_contact
+    sleep    ${waiting_time}
+    Click Element    name=ab046099heyou@ab-insurance.com
+    sleep    ${waiting_time}
+    Click Element    id=edt_amt
+
+银行卡-转账
+    Click Element    id=btn_next2
+    sleep    ${waiting_time}
+
+进入邦盈宝
+    Click Element    name=邦盈宝
+    sleep    ${waiting_time}
+
+邦盈宝-转入
+    Click Element    id=tv_trans_in
+    sleep    ${waiting_time}
+
+邦盈宝-转出
+    Click Element    id=tv_trans_out
+    sleep    ${waiting_time}
+
+邦盈宝-输入金额
+    [Arguments]    ${value}
+    Input Text    id=edt_amt    ${value}
+
+邦盈宝-立即转入
+    Click Element    name=立即转入
+    sleep    ${waiting_time}
+
+邦盈宝-转出金额
+    [Arguments]    ${value}
+    Input Text    id=edt_transfer_out_amount    ${value}
+
+邦盈宝-转出按钮
+    Click Element    id=btn_sure_transfer_out
+
+进入我的账单
+    Click Element    name=我的账单
+    sleep    ${waiting_time}
+
+点击提现记录
+    Click Element    id=img_withdraw_details
+    sleep    ${waiting_time}
+
+点击转账到卡
+    Click Element    id=img_transfer_details
+    sleep    ${waiting_time}
+
+进入账户收款列表
+    Swipe    674.1    443.3    674.1    443.3    1000
+
+进入账户付款列表
+    Swipe    691.2    557.2    691.2    557.2    1000
+
+邦盈宝-我知道了
+    Click Element    id=btn_next
+
+邦盈宝转出-完成
+    Click Element    name=完成
+
+进入转账到银行卡列表
+    Swipe    696.1    656.3    696.1    656.3    1000
+
+进入其他账单
+    Click Element    id=img_other_bill_details
+    sleep    ${waiting_time}
+
+其他账单-消费记录
+    Swipe    929.3    446.6    929.3    446.6    1000
+
+其他账单-其他账单
+    Swipe    907.7    534.8    907.7    534.8    1000
+
+查看账单详情
+    Click Element    id=tl_details_item
+    sleep    ${waiting_time}
+    文本检查
+
+文本检查
+    Page Should Contain Text    交易成功
+
+进入积分商城
+    Click Element    name=积分商城
+    sleep    ${waiting_time}
+
+个人中心-我的积分
+    Click Element    id=rl_integral
+    sleep    ${waiting_time}
+
+个人中心-去兑换
+    Click Element    id=tv_exchange
+    sleep    ${waiting_time}
+
+生活支付-机票预订
+    Click Element    name=机票预订
+    sleep    ${waiting_time}
+
+进入设置
+    Click Element    name=设置
+    sleep    ${waiting_time}
+
+进入密码管理
+    Click Element    id=btn_psw_manager
+    sleep    ${waiting_time}
+
+点击修改登录密码
+    Click Element    id=modify_loginpwd
+    sleep    ${waiting_time}
+
+修改密码-输入手机号
+    [Arguments]    ${mobile}
+    Input Text    id=register_tel    ${mobile}
+    sleep    ${waiting_time}
+
+修改密码-获取验证码
+    Click Element    id=get_telCode
+    sleep    ${waiting_time}
+
+修改密码-提交
+    Click Element    name=提交
+    sleep    ${waiting_time}
+
+点击旧密码框
+    Click Element    id=old_pwd
+    sleep    ${waiting_time}
+
+点击新密码框一
+    Click Element    id=new_pwd
+    sleep    ${waiting_time}
+
+点击新密码框二
+    Click Element    id=new_pwd_too
+    sleep    ${waiting_time}
+
+修改密码-重置密码
+    Click Element    name=重置密码
+    sleep    ${waiting_time}
+
+修改密码-确定
+    Click Element    id=confirm
+    sleep    ${waiting_time}
+
+点击修改支付密码
+    Click Element    id=modify_paypwd
+    sleep    ${waiting_time}
+
+选择信用卡-本人
+    Click Element    name=中国建设银行
+    sleep    ${waiting_time}
+
+信用卡还款金额-本人
+    [Arguments]    ${value}
+    sleep    ${waiting_time}
+    Input Text    id=edt_payment    ${value}
+    sleep    ${waiting_time}
+
+选择信用卡-他人
+    Click Element    name=招商银行
+    sleep    ${waiting_time}
+
+信用卡还款金额-他人
+    [Arguments]    ${value}
+    sleep    ${waiting_time}
+    Input Text    id=edt_payment    ${value}
+    sleep    ${waiting_time}
