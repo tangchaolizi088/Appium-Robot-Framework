@@ -6,9 +6,9 @@ Resource          公共层.txt
 
 *** Test Cases ***
 Transfer_Card
-    转至银行卡测试    13910835391    1234qwer    积分商城    1.1    xpath=//UIAApplication[1]/UIAWindow[1]    qwer1234
+    转至银行卡测试    13716983483    1234qwer    积分商城    1.1    xpath=//UIAApplication[1]/UIAWindow[1]    qwer1234
     ...    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[1]
 
 Transfer_Account
-    转账到账户    13910835391    1234qwer    积分商城    1.1    xpath=//UIAApplication[1]/UIAWindow[1]    qwer1234
+    转账到账户    13716983483    1234qwer    积分商城    1.1    xpath=//UIAApplication[1]/UIAWindow[1]    qwer1234
     ...    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[1]
