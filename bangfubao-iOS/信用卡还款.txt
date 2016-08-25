@@ -6,9 +6,9 @@ Resource          业务流程.txt
 
 *** Test Cases ***
 CreditCard_Self
-    信用卡还款（本人）    13910835391    1234qwer    积分商城    6221662143010616    何酉    10.11
+    信用卡还款（本人）    13910835391    1234qwer    积分商城    xxxxxx    xx    10.11
     ...    xpath=//UIAApplication[1]/UIAWindow[3]    qwer1234    xpath=//UIAButton[@name="完成"]
 
 CreditCard_Other
-    信用卡还款（他人)    13910835391    1234qwer    积分商城    6225758328709208    王栋轩    10.11
+    信用卡还款（他人)    13910835391    1234qwer    积分商城    xxxxx    xxxx    10.11
     ...    xpath=//UIAApplication[1]/UIAWindow[3]    qwer1234    xpath=//UIAButton[@name="完成"]
