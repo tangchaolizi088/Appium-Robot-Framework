@@ -1,0 +1,17 @@
+*** Settings ***
+Test Setup        启动应用
+Test Teardown     关闭应用
+Resource          业务流程.txt
+Resource          公共层.txt
+
+*** Test Cases ***
+BangYingBao_Manager
+    邦盈宝测试    13910835391    1234qwer    积分商城    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[@name='转入']
+
+BangYingBao_Income
+    邦盈宝转入测试    13910835391    1234qwer    积分商城    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[@name='转入']    10.11    xpath=//UIAApplication[1]/UIAWindow[1]
+    ...    qwer1234    转入成功
+
+BangYingBao_Output
+    邦盈宝转出测试    13910835391    1234qwer    积分商城    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[@name='转入']    1.1    xpath=//UIAApplication[1]/UIAWindow[1]
+    ...    qwer1234    转出成功

@@ -1,0 +1,245 @@
+*** Settings ***
+Resource          公共层.txt
+
+*** Keywords ***
+登录测试
+    [Arguments]    ${username}    ${password}    ${text}
+    输入账号    ${username}
+    点击密码框
+    输入密码    //UIAApplication[1]/UIAWindow[1]/UIAImage[1]    ${password}
+    点击登录
+    sleep    4
+    文本检查    ${text}
+
+充值测试
+    [Arguments]    ${username}    ${password}    ${text}    ${value}    ${el}    ${pwd}
+    ...    ${elements}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    点击充值
+    选择银行卡
+    输入充值金额    ${value}
+    点击支付密码框
+    输入密码    ${el}    ${pwd}
+    立即充值
+    sleep    10
+    ${a}    Oracle Connect    ${username}
+    Input Value    xpath=//UIAApplication[1]/UIAWindow[1]/UIAImage[5]/UIATextField[1]    ${a}
+    短信验证确定
+    元素检查    ${elements}
+    完成
+
+积分商城测试
+    [Arguments]    ${username}    ${password}    ${text}    ${elements}
+    登录测试    ${username}    ${password}    ${text}
+    点击积分商城
+    元素检查    ${elements}
+
+积分商城管家测试
+    [Arguments]    ${username}    ${password}    ${text}    ${elements}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    点击我的积分
+    去兑换
+    元素检查    ${elements}
+
+机票预订测试
+    [Arguments]    ${username}    ${password}    ${text}    ${elements}
+    登录测试    ${username}    ${password}    ${text}
+    点击生活支付
+    点击机票预订
+
+邦盈宝测试
+    [Arguments]    ${username}    ${password}    ${text}    ${elements}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入邦盈宝
+    元素检查    ${elements}
+
+账单_充值查询
+    [Arguments]    ${username}    ${password}    ${text}    ${element}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入我的账单
+    元素检查    ${element}
+
+提现测试
+    [Arguments]    ${username}    ${password}    ${text}    ${value}    ${els}    ${pwd}
+    ...    ${elements}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    点击提现
+    使用普通提现
+    提现选择银行卡
+    输入提现金额    ${value}
+    提现
+    输入密码    ${els}    ${pwd}
+    提现-确认
+    sleep    5
+    元素检查    ${elements}
+    完成
+
+转至银行卡测试
+    [Arguments]    ${username}    ${password}    ${text}    ${value}    ${els}    ${pwd}
+    ...    ${elements}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入转账
+    切换转至银行卡
+    进入通讯录
+    输入转账金额    ${value}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[6]
+    输入密码    ${els}    ${pwd}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[3]
+    元素检查    ${elements}
+    完成
+
+邦盈宝转入测试
+    [Arguments]    ${username}    ${password}    ${text}    ${elements}    ${value}    ${els}
+    ...    ${pwd}    ${text2}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入邦盈宝
+    元素检查    ${elements}
+    邦盈宝转入
+    邦盈宝-转入金额    ${value}
+    立即转入
+    输入密码    ${els}    ${pwd}
+    发送短信验证
+    sleep    10
+    ${a}    Oracle Connect    ${username}
+    Input Value    xpath=//UIAApplication[1]/UIAWindow[1]/UIAImage[2]/UIATextField[1]    ${a}
+    邦盈宝确认
+    sleep    10
+    文本检查    ${text2}
+    邦盈宝-我知道了
+
+邦盈宝转出测试
+    [Arguments]    ${username}    ${password}    ${text}    ${elements}    ${value}    ${els}
+    ...    ${pwd}    ${text2}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入邦盈宝
+    元素检查    ${elements}
+    邦盈宝转出
+    邦盈宝-转出金额    ${value}
+    邦盈宝-转出
+    输入密码    ${els}    ${pwd}
+    邦盈宝确认
+    sleep    10
+    文本检查    ${text2}
+    邦盈宝-完成
+
+账单_提现查询
+    [Arguments]    ${username}    ${password}    ${text}    ${element}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入我的账单
+    提现记录
+    元素检查    ${element}
+
+账单_转账查询_账户收款查询
+    [Arguments]    ${username}    ${password}    ${text}    ${element}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入我的账单
+    转账记录
+    进入账户收款
+    元素检查    ${element}
+
+账单_转账查询_账户付款查询
+    [Arguments]    ${username}    ${password}    ${text}    ${element}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入我的账单
+    转账记录
+    进入账户付款
+    元素检查    ${element}
+
+账单_转账查询_转账到银行卡查询
+    [Arguments]    ${username}    ${password}    ${text}    ${element}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入我的账单
+    转账记录
+    进入转账到银行卡
+    元素检查    ${element}
+
+账单_消费查询
+    [Arguments]    ${username}    ${password}    ${text}    ${element}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入我的账单
+    其他账单
+    进入消费记录
+    元素检查    ${element}
+
+账单_其他查询
+    [Arguments]    ${username}    ${password}    ${text}    ${element}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入我的账单
+    其他账单
+    进入其他账单
+    元素检查    ${element}
+
+账单_明细
+    [Arguments]    ${username}    ${password}    ${text}    ${element}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入我的账单
+    ${a}    is_element_present    ${element}
+    Run Keyword If    "${a}"=="True"    查看账单详情
+    ...    ELSE    log    账单列表为空！
+
+转账到账户
+    [Arguments]    ${username}    ${password}    ${text}    ${value}    ${els}    ${pwd}
+    ...    ${elements}
+    登录测试    ${username}    ${password}    ${text}
+    进入个人中心
+    进入转账
+    sleep    5
+    转至账户-进入通讯录
+    输入转账金额    ${value}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[4]
+    输入密码    ${els}    ${pwd}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[3]
+    元素检查    ${elements}
+    完成
+
+信用卡还款（本人）
+    [Arguments]    ${username}    ${password}    ${text}    ${value}    ${name}    ${value2}
+    ...    ${els}    ${pwd}    ${value3}
+    登录测试    ${username}    ${password}    ${text}
+    进入财富
+    还款
+    输入信用卡卡号    ${value}
+    信用卡还款-输入姓名    ${name}
+    信用卡还款-输入金额    ${value2}
+    信用卡还款-确定还款
+    输入密码    ${els}    ${pwd}
+    信用卡还款-确认支付
+    元素检查    ${value3}
+    信用卡还款-完成
+
+信用卡还款（他人)
+    [Arguments]    ${username}    ${password}    ${text}    ${value}    ${name}    ${value2}
+    ...    ${el}    ${pwd}    ${value3}
+    登录测试    ${username}    ${password}    ${text}
+    进入财富
+    还款
+    输入信用卡卡号    ${value}
+    信用卡还款-输入姓名    ${name}
+    信用卡还款-输入金额    ${value2}
+    信用卡还款-发送短信
+    sleep    10
+    ${a}    Oracle Connect    ${username}
+    Input Value    xpath=//UIATextField[@value="请输入验证码"]    ${a}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[4]/UIAButton[8]
+    信用卡还款-确定还款
+    sleep    5
+    信用卡还款-请选择银行卡
+    输入密码    ${el}    ${pwd}
+    信用卡还款-确认支付
+    元素检查    ${value3}
+    信用卡还款-完成

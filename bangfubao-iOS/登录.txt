@@ -1,0 +1,10 @@
+﻿*** Settings ***
+Test Setup        启动应用
+Test Teardown     关闭应用
+Library           AppiumLibrary
+Library           DatabaseLibrary
+Resource          业务流程.txt
+
+*** Test Cases ***
+Login
+    登录测试    13716983483    1234qwer    积分商城

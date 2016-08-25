@@ -1,0 +1,11 @@
+*** Settings ***
+Test Setup        启动应用
+Test Teardown     关闭应用
+Library           DatabaseLibrary
+Resource          业务流程.txt
+Resource          公共层.txt
+
+*** Test Cases ***
+Recharge
+    充值测试    13910835391    1234qwer    积分商城    10.11    xpath=//UIAApplication[1]/UIAWindow[1]    qwer1234
+    ...    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[1]

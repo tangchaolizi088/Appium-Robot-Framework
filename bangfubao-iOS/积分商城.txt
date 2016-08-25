@@ -1,0 +1,12 @@
+*** Settings ***
+Test Setup        启动应用
+Test Teardown     关闭应用
+Resource          业务流程.txt
+Resource          公共层.txt
+
+*** Test Cases ***
+BonusShop_Manager
+    积分商城测试    13910835391    1234qwer    积分商城    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIALink[9]/UIAImage[1]
+
+BonusShop_Home
+    积分商城管家测试    13910835391    1234qwer    积分商城    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIALink[9]/UIAImage[@name='我的积分']

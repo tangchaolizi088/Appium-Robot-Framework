@@ -1,0 +1,9 @@
+*** Settings ***
+Test Setup        启动应用
+Test Teardown     关闭应用
+Resource          业务流程.txt
+Resource          公共层.txt
+
+*** Test Cases ***
+Book_Flight
+    机票预订测试    13910835391    1234qwer    积分商城    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAButton[1]

@@ -1,0 +1,281 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           DatabaseLibrary
+Library           CustomLibrary
+Library           MyLibrary
+
+*** Variables ***
+${waiting_time}    10
+
+*** Keywords ***
+启动应用
+    Open Application    http://127.0.0.1:4723/wd/hub    platformName=iOS    deviceName='iPhone 4S'    run_on_failure=Capture Page Screenshot    appActivity=com.anbang.pay.StartPageActivity    appPackage=com.anbang.pay
+    ${a}    is_element_present    //UIAApplication[1]/UIAWindow[7]/UIAAlert[1]/UIACollectionView[1]
+    Run Keyword If    "${a}"=="True"    Click Element    //UIAButton[@name="不允许"]
+    ${b}    is_element_present    //UIAImage[@name="guide_1_568"]
+    Run Keyword If    "${b}"=="True"    引导滑动
+
+输入登录密码
+    Click A Point    x=26.7    y=710.6
+    Click A Point    x=30.6    y=541.5
+    Click A Point    x=69.2    y=540.3
+    Click A Point    x=104.9    y=536.7
+    Click A Point    x=146.9    y=545.0
+    Click A Point    x=25.6    y=700.5
+    Click A Point    x=27.5    y=524.5
+    Click A Point    x=70.5    y=542.5
+    Click A Point    x=109.6    y=542.1
+    Click A Point    x=153.5    y=543.3
+
+关闭应用
+    Close Application
+
+文本检查
+    [Arguments]    ${text}
+    Page Should Contain Text    ${text}
+
+输入账号
+    [Arguments]    ${username}
+    Clear Text    xpath=//UIAApplication[1]/UIAWindow[1]/UIAImage[3]/UIATextField[1]
+    Input Value    xpath=//UIAApplication[1]/UIAWindow[1]/UIAImage[3]/UIATextField[1]    ${username}
+
+点击登录
+    Click Element    //UIAApplication[1]/UIAWindow[1]/UIAButton[1]
+
+点击密码框
+    Click Element    //UIAApplication[1]/UIAWindow[1]/UIAImage[4]/UIATextField[1]
+
+进入个人中心
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAImage[3]
+
+点击充值
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIAButton[7]
+
+选择银行卡
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[2]
+    sleep    ${waiting_time}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]
+
+输入充值金额
+    [Arguments]    ${value}
+    Input Value    xpath=//UIAApplication[1]/UIAWindow[1]/UIAImage[2]/UIATextField[1]    ${value}
+
+点击支付密码框
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAImage[3]/node()[@value="请输入支付密码"]
+
+输入支付密码
+    Click A Point    x=27.5    y=524.5
+    Click A Point    x=70.5    y=542.5
+    Click A Point    x=109.6    y=542.1
+    Click A Point    x=153.5    y=543.3
+    Click A Point    x=26.7    y=710.6
+    Click A Point    x=30.6    y=541.5
+    Click A Point    x=69.2    y=540.3
+    Click A Point    x=104.9    y=536.7
+    Click A Point    x=146.9    y=545.0
+    Click A Point    x=366.7    y=712.2
+
+立即充值
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[4]
+
+点击积分商城
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[10]
+    sleep    ${waiting_time}
+
+元素检查
+    [Arguments]    ${elements}
+    sleep    ${waiting_time}
+    Page Should Contain Element    ${elements}
+    sleep    ${waiting_time}
+
+点击我的积分
+    ${location}    Get Element Location    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIAButton[11]
+    Click A Point    ${location['x']}    ${location['y']}
+
+去兑换
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[1]
+
+点击生活支付
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[11]
+    sleep    ${waiting_time}
+
+点击机票预订
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[5]
+
+进入邦盈宝
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[@name='邦盈宝']
+
+进入我的账单
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[4]
+
+短信验证确定
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[6]
+
+短信验证码取消
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[5]
+
+完成
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[1]
+
+点击提现
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIAButton[8]
+
+使用普通提现
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[7]
+
+提现选择银行卡
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[1]
+    sleep    ${waiting_time}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]
+
+输入提现金额
+    [Arguments]    ${value}
+    Input Value    xpath=//UIAApplication[1]/UIAWindow[1]/UIATextField[1]    ${value}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[4]/UIAButton[8]
+
+提现
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[2]
+
+提现-确认
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[5]
+
+进入转账
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIAButton[9]
+
+切换转至银行卡
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[3]
+
+进入通讯录
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[5]
+    sleep    ${waiting_time}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]
+    sleep    ${waiting_time}
+
+输入转账金额
+    [Arguments]    ${value}
+    Input Value    xpath=//UIATextField[@value="请输入金额"]    ${value}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[4]/UIAButton[8]
+
+邦盈宝转入
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[7]
+
+邦盈宝-转入金额
+    [Arguments]    ${value}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATextField[1]
+    Input Value    xpath=//UIAApplication[1]/UIAWindow[1]/UIATextField[1]    ${value}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[2]/UIAToolbar[1]/UIAButton[1]
+
+立即转入
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[2]
+
+发送短信验证
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAImage[2]/UIAButton[@name="发送短信验证"]
+
+邦盈宝确认
+    Click Element    xpath=//UIAButton[@name="确定"]
+
+邦盈宝转出
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[9]
+
+邦盈宝-转出金额
+    [Arguments]    ${value}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATextField[1]
+    Input Value    xpath=//UIAApplication[1]/UIAWindow[1]/UIATextField[1]    ${value}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[2]/UIAToolbar[1]/UIAButton[1]
+
+邦盈宝-转出
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[3]
+
+邦盈宝-完成
+    Click Element    xpath=//UIAButton[@name="完成"]
+
+邦盈宝-我知道了
+    Click Element    xpath=//UIAButton[@name="我知道了"]
+
+提现记录
+    Click Element    //UIAStaticText[@name="提现记录"]
+
+转账记录
+    Click Element    //UIAStaticText[@name="转账记录"]
+
+进入账户收款
+    Click Element    //UIAStaticText[@name="账户收款"]
+
+进入账户付款
+    Click Element    //UIAStaticText[@name="账户付款"]
+
+进入转账到银行卡
+    Click Element    //UIAStaticText[@name="转账到银行卡"]
+
+其他账单
+    Click Element    //UIAStaticText[@name="其他账单"]
+
+进入消费记录
+    Click Element    //UIAStaticText[@name="消费记录"]
+
+进入其他账单
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAStaticText[3]
+
+查看账单详情
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]
+    sleep    ${waiting_time}
+    文本检查    账单详情
+
+转至账户-进入通讯录
+    Click Element    //UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAImage[4]/UIAButton[2]
+    sleep    ${waiting_time}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]
+    sleep    ${waiting_time}
+
+进入财富
+    ${a}    Get element location    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAStaticText[2]
+    Click A Point    ${a['x']}    ${a['y']}
+
+还款
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[5]
+
+输入信用卡卡号
+    [Arguments]    ${value}
+    Input Value    xpath=//UIATextField[@value="请输入银行卡号"]    ${value}
+
+信用卡还款-输入姓名
+    [Arguments]    ${name}
+    Click Element    xpath=//UIATextField[@value="请输入持卡人姓名"]
+    Input Value    xpath=//UIATextField[@value="请输入持卡人姓名"]    ${name}
+
+信用卡还款-输入金额
+    [Arguments]    ${value2}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAImage[4]/UIATextField[2]
+    Input Value    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAImage[4]/UIATextField[2]    ${value2}
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[4]/UIAButton[8]
+
+信用卡还款-发送短信
+    Click Element    xpath=//UIAButton[@name="发送短信验证"]
+
+信用卡还款-确定还款
+    Click Element    xpath=//UIAButton[@name="确定还款"]
+
+信用卡还款-确认支付
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[3]
+
+信用卡还款-请选择银行卡
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAButton[1]
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]
+
+信用卡还款-完成
+    Click Element    xpath=//UIAButton[@name="完成"]
+
+输入密码
+    [Arguments]    ${el}    ${pwd}
+    ${windows_value}    Get Element Size    ${el}
+    ${pwd_list}    get_location    ${windows_value['width']}    ${windows_value['height']}    ${pwd}
+    : FOR    ${pwd}    IN    @{pwd_list}
+    \    Click A Point    ${pwd['x']}    ${pwd['y']}
+    Click A Point    x=366.7    y=712.2
+
+引导滑动
+    ${windows_value}    Get Element Size    //UIAImage[@name="guide_1_568"]
+    Swipe    ${windows_value['width']*0.9}    ${windows_value['height']*0.5}    ${windows_value['width']*0.1}    ${windows_value['height']*0.5}    1000
+    Swipe    ${windows_value['width']*0.9}    ${windows_value['height']*0.5}    ${windows_value['width']*0.1}    ${windows_value['height']*0.5}    1000
+    Swipe    ${windows_value['width']*0.9}    ${windows_value['height']*0.5}    ${windows_value['width']*0.1}    ${windows_value['height']*0.5}    1000
+    Click Element    xpath=//UIAApplication[1]/UIAWindow[1]/UIAScrollView[2]/UIAImage[1]/UIAButton[1]
